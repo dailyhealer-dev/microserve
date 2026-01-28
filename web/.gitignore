@@ -1,0 +1,93 @@
+# =======================
+# Python
+# =======================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.py[co]
+*.env
+*.venv/
+venv/
+ENV/
+env/
+env.bak/
+*.swp
+
+# =======================
+# Django
+# =======================
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+*.sqlite3-journal
+media/
+staticfiles/
+static/
+*.mo
+local_settings.py
+
+# =======================
+# Python packaging / builds
+# =======================
+build/
+dist/
+wheels/
+*.egg
+*.egg-info/
+.eggs/
+*.manifest
+*.spec
+
+# =======================
+# Testing / coverage
+# =======================
+.coverage
+.tox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+
+# =======================
+# Docker
+# =======================
+*.pid
+docker-compose.override.yml
+docker-compose.override.yml.*
+*.env
+.env.*
+!.env.example
+*.dockerfile
+docker-compose.override.yml
+docker-compose.override.yml.*
+/docker/
+
+# =======================
+# IDE / Editor
+# =======================
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.iml
+*.ipr
+*.iws
+
+# =======================
+# System / OS
+# =======================
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+*.tmp
+
+# =======================
+# UV tool / project manager
+# =======================
+.uv/

@@ -1,0 +1,54 @@
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    image: web:1.0
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+      redis_db:
+        condition: service_started
+    env_file:
+      - web/.env
+    environment:
+      - PORT=8000
+    ports:
+      - "8001:8000"
+    command: >
+      sh -c "
+      chmod +x /app/migrate.sh /app/entrypoint.sh &&
+      /app/migrate.sh &&
+      /app/entrypoint.sh
+      "
+    volumes:
+      - staticfiles:/app/staticfiles/
+  postgres_db:
+    image: postgres
+    restart: always
+    command: -p 5433
+    env_file:
+      - web/.env
+    ports:
+      - "5433:5433"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d dockerdc -p 5433"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis_db:
+    image: redis
+    restart: always
+    command: redis-server --appendonly yes --port 6380
+    ports:
+      - "6380:6380"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+  staticfiles:

@@ -1,0 +1,34 @@
+name: Django CI/CD to Kubernetes
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  IMAGE_NAME: dailyhealer/web
+  IMAGE_TAG: 1.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+
+    - name: Install uv
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    - name: Install dependencies
+      working-directory: web
+      run: uv sync
+
+    - name: Django checks
+      working-directory: web
+      run: |
+        uv run python manage.py check
+        uv run python manage.py makemigrations --check --dry-run

@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+echo "Starting Django with Gunicorn..."
+
+# Collect static files (optional)
+if [ "$COLLECT_STATIC" = "1" ]; then
+  uv run python manage.py collectstatic --noinput
+fi
+
+exec uv run gunicorn config.wsgi:application \
+  --bind 0.0.0.0:${PORT:-8000} \
+  --workers ${GUNICORN_WORKERS:-3} \
+  --timeout ${GUNICORN_TIMEOUT:-120} \
+  --access-logfile - \
+  --error-logfile -
